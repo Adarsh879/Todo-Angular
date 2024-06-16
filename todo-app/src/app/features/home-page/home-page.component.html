@@ -1,0 +1,111 @@
+<section class="vh-100 gradient-custom">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col col-lg-9 col-xl-7">
+        <div class="card rounded-3 bg-dark">
+          <div class="card-body p-4">
+            <h4 class="text-center my-3 pb-3 text-white">Task List</h4>
+
+            <form
+              class="row row-cols-lg-auto g-3 justify-content-center align-items-center mb-4 pb-2"
+              (ngSubmit)="onSubmit()"
+              #taskForm="ngForm"
+            >
+              <div class="col-xl-9 col-12 col-lg-9">
+                <div class="form-floating">
+                  <input
+                    type="text"
+                    id="taskNameInput"
+                    placeholder="Enter task"
+                    class="form-control bg-dark text-white"
+                    [(ngModel)]="taskName"
+                    name="taskName"
+                    required
+                  />
+                  <label class="form-label text-white" for="taskNameInput"
+                    >Enter a task here</label
+                  >
+                </div>
+              </div>
+
+              <div class="col-2">
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  [disabled]="!taskForm.valid"
+                >
+                  Save
+                </button>
+              </div>
+            </form>
+
+            <div class="dropdown mb-4 pb-2">
+              <button
+                class="btn btn-secondary dropdown-toggle"
+                type="button"
+                id="dropdownMenuButton"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                All
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
+            </div>
+
+            @if (tasks == null) {
+            <div class="alert alert-primary" role="alert">Loading.....</div>
+            } @else if(tasks.length == 0) {
+            <div class="alert alert-primary" role="alert">No Tasks found</div>
+            } @else {
+            <table class="table mb-4 table-dark">
+              <thead>
+                <tr>
+                  <th scope="col">No.</th>
+                  <th scope="col">Todo item</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for(task of tasks; track task._id) {
+                <tr>
+                  <th scope="row">{{ $index }}</th>
+                  <td>{{ task.task }}</td>
+                  @if (task.completed) {
+                  <td>Completed</td>
+                  } @else {
+                  <td>In progress</td>
+                  }
+                  <td>
+                    <button
+                      type="submit"
+                      class="btn btn-danger"
+                      (click)="deleteTask(task._id)"
+                    >
+                      Delete
+                    </button>
+                    <button
+                      type="submit"
+                      class="btn btn-success ms-1"
+                      [disabled]="task.completed"
+                      (click)="markTaskAsDone(task._id)"
+                    >
+                      Finished
+                    </button>
+                  </td>
+                </tr>
+                }
+              </tbody>
+            </table>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,1 @@
+Todo app created with Angular 17 with auth and nodejs with mongodb as backend.
